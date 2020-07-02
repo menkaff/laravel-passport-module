@@ -4,6 +4,7 @@ namespace Modules\Passport\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Passport\Service\TokenService;
 
 class PassportServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,8 @@ class PassportServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('TokenService', TokenService::class);
+
     }
 
     /**
