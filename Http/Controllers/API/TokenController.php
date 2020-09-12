@@ -2,9 +2,9 @@
 
 namespace Modules\Passport\Http\Controllers\API;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Auth;
 
 class TokenController extends Controller
 {
@@ -43,7 +43,14 @@ class TokenController extends Controller
     {
         $data = $request->all();
         $data['user'] = Auth::user();
-        $result = app()->make('TokenService')->Delete($data);
+
+        if (isset($data["activation_sms"]) && $data["activation_sms"] == $data['user']->activation_sms) {
+            $result = app()->make('TokenService')->Delete($data);
+        } else {
+
+            return responseError(trans("passport::messages.403"));
+
+        }
 
         if ($result['is_successful']) {
 
