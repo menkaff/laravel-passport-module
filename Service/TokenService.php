@@ -7,7 +7,14 @@ class TokenService
     public function Index($params)
     {
         $user = $params['user'];
-        return serviceOk($user->tokens()->get());
+        $tokens = $user->tokens()->get();
+        foreach ($tokens as $token) {
+            $token->created_at = \Carbon\Carbon::parse($token->created_at)->timestamp;
+
+            $token->updated_at = \Carbon\Carbon::parse($token->updated_at)->timestamp;
+
+        }
+        return serviceOk($tokens);
 
     }
 

@@ -44,13 +44,7 @@ class TokenController extends Controller
         $data = $request->all();
         $data['user'] = Auth::user();
 
-        if (isset($data["activation_sms"]) && $data["activation_sms"] == $data['user']->activation_sms) {
-            $result = app()->make('TokenService')->Delete($data);
-        } else {
-
-            return responseError(trans("passport::messages.403"));
-
-        }
+        $result = app()->make('TokenService')->Delete($data);
 
         if ($result['is_successful']) {
 
