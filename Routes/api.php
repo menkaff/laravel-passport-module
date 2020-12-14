@@ -16,7 +16,6 @@ Route::group([
     'prefix' => '/passport/v1',
     'namespace' => '\Modules\Passport\Http\Controllers\API',
 ], function () {
-
     Route::group([
         'prefix' => '/token',
     ], function () {
@@ -24,5 +23,4 @@ Route::group([
         Route::get('/current', 'TokenController@Current');
         Route::post('/delete', 'TokenController@Delete');
     });
-
 });

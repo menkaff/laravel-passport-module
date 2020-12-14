@@ -71,7 +71,6 @@ class TokenTest extends TestCase
         if ($current_token) {
             $token_to_delete = $api_logged_user_object->tokens()->where('id', '!=', $current_token->id)->first();
             if ($token_to_delete) {
-
                 $response = $this->json('GET', '/api/passport/v1/token/delete', [
                     'id' => $token_to_delete->id,
                 ]);
