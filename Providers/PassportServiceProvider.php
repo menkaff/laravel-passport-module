@@ -31,7 +31,6 @@ class PassportServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind('TokenService', TokenService::class);
-
     }
 
     /**
@@ -45,7 +44,8 @@ class PassportServiceProvider extends ServiceProvider
             __DIR__.'/../Config/config.php' => config_path('passport.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'passport'
+            __DIR__.'/../Config/config.php',
+            'passport'
         );
     }
 
@@ -62,7 +62,7 @@ class PassportServiceProvider extends ServiceProvider
 
         $this->publishes([
             $sourcePath => $viewPath
-        ],'views');
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/passport';

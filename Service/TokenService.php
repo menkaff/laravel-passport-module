@@ -7,8 +7,13 @@ class TokenService
     public function Index($params)
     {
         $user = $params['user'];
-        return serviceOk($user->tokens()->get());
+        $tokens = $user->tokens()->get();
+        foreach ($tokens as $token) {
+            $token->created_at = \Carbon\Carbon::parse($token->created_at)->timestamp;
 
+            $token->updated_at = \Carbon\Carbon::parse($token->updated_at)->timestamp;
+        }
+        return serviceOk($tokens);
     }
 
     public function Current($params)
@@ -28,7 +33,7 @@ class TokenService
             ->when(isset($params['id']), function ($query) use ($params) {
                 $query->where('id', '=', $params['id']);
             })
-            ->when(isset($params['except_ids']) && is_array($params['ids']), function ($query) use ($params) {
+            ->when(isset($params['except_ids']) && is_array($params['except_ids']), function ($query) use ($params) {
                 $query->whereIn('id', '!=', $params['except_ids']);
             })
             ->when(isset($params['except_id']), function ($query) use ($params) {
@@ -37,6 +42,5 @@ class TokenService
             ->delete();
 
         return serviceOk(trans('passport::messages.done'));
-
     }
 }
